@@ -1,7 +1,31 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { DepositComponent } from './deposit/deposit.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { WithdrawComponent } from './withdraw/withdraw.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path:'dashboard', component:DashboardComponent
+    
+  },
+  {
+    path:'', component:LoginComponent
+  },
+  {
+    path:'register', component:RegisterComponent
+  },
+  {
+    path:'withdraw', component:WithdrawComponent
+  },
+  {
+    path:'deposit', component:DepositComponent
+  }
+
+
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -1,22 +1,18 @@
-<body>
-    <!-- As a link -->
-    <nav class="navbar navbar-light bg-dark ">
-        <a class="navbar-brand  " href="#" style="color:rgb(85, 98, 237);"><b>&#169;AVG Bank </b></a>
-        <span class="quote text-light">@arathypublications</span><br>
-        <p>{{aim}}</p>
-    </nav>
 
+
+<body>
+ 
 
     <div class="container col-md-12 mt-0">
         <div class="d-flex justify-content-center h-100">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="text-center">Sign In</h3>
+                    <h3 class="text-center">WithDraw</h3>
 
                 </div>
                 <div class="card-body">
                     <!-- <form onsubmit="event.preventDefault();bank.login()"> -->
-                    <form (ngSubmit)="login()">
+                    <form (ngSubmit)=withdraw()>
 
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
@@ -27,7 +23,7 @@
                                 required> -->
                             <!-- template refferencing variable -->
                             <input type="text" class="form-control" [(ngModel)]="acno" name="acno1"
-                                [placeholder]="accno" id="bk_username" required>
+                                placeholder="Account No" id="bk_username" required>
 
 
 
@@ -44,14 +40,27 @@
 
 
                         </div>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                            <!-- <input type="password" class="form-control"  placeholder="password"  (change)="pwdChange($event)" id="bk_password" required> -->
+                            <!-- <input type="password" class="form-control" #pwd placeholder="password" id="bk_password"
+                                required> -->
+                            <input type="text" class="form-control" [(ngModel)]="amount" name="amount1"
+                                placeholder="Amount" id="bk_password" required>
+
+
+                        </div>
 
                         <div class="form-group">
-                            <input type="submit" value="Login"  class="btn float-right login_btn "
+                            <input type="submit" value="Withdraw"  class="btn float-right login_btn "
                                 style="width:50%">
                         </div>
                     </form>
                 </div>
-                <p style="color:white;align-items:baseline;">Not a user? <a routerLink="register">Register</a></p>
+                <p style="color:white;align-items:baseline;">Click for <a routerLink="/dashboard">Dashboard</a></p>
+
             </div>
         </div>
     </div>

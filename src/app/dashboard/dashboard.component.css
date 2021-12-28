@@ -93,3 +93,47 @@ margin-left: 4px;
     color: #FFC312;
     padding-top: 20px;
 }
+/* special effect  */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+/* body {
+ background: #111;
+ font-family: "Open Sans",  Impact;
+} */
+
+.area {
+  text-align: center;
+  font-size: 6.5em;
+  color: #fff;
+  letter-spacing: -7px;
+  font-weight: 700;
+  text-transform: uppercase;
+  animation: blur .75s ease-out infinite;
+  text-shadow: 0px 0px 5px #fff, 0px 0px 7px #fff;
+}
+
+@keyframes blur {
+  from {
+    text-shadow:0px 0px 10px rgb(221, 28, 28),
+      0px 0px 10px rgb(0, 0, 0), 
+      0px 0px 25px rgb(167, 62, 62),
+      0px 0px 25px rgb(0, 0, 0),
+      0px 0px 25px rgb(110, 72, 72),
+      0px 0px 25px rgb(151, 119, 119),
+      0px 0px 25px rgb(116, 204, 121),
+      0px 0px 25px rgb(129, 29, 29),
+      0px 0px 50px #fff,
+      0px 0px 50px #fff,
+      0px 0px 50px #7bb894,
+      0px 0px 150px #7B96B8,
+      0px 10px 100px #7B96B8,
+      0px 10px 100px #7B96B8,
+      0px 10px 100px #7B96B8,
+      0px 10px 100px #7B96B8,
+      0px -10px 100px #000000,
+      0px -10px 100px #082f5f;
+  }
+}
+
+
+
