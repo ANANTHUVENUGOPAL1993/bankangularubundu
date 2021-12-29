@@ -93,7 +93,7 @@ export class DatabaseService {
     if (acno in db) {
       if (password == db[acno]["password"]) {
         var bal = db[acno]["balance"]
-        if (bal == amount || bal > amount) {
+        if (bal >=amount) {
           db[acno]["balance"] = db[acno]["balance"] - amount
           return db[acno]["balance"];
 
