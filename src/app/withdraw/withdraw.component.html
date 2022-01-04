@@ -12,7 +12,7 @@
                 </div>
                 <div class="card-body">
                     <!-- <form onsubmit="event.preventDefault();bank.login()"> -->
-                    <form (ngSubmit)=withdraw()>
+                    <form (ngSubmit)=withdraw() [formGroup]="withdrawForm">
 
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
@@ -22,12 +22,15 @@
                             <!-- <input type="text" class="form-control" #acno [placeholder]="accno" id="bk_username"
                                 required> -->
                             <!-- template refferencing variable -->
-                            <input type="text" class="form-control" [(ngModel)]="acno" name="acno1"
+                            <input type="text" class="form-control" formControlName="acno" name="acno1"
                                 placeholder="Account No" id="bk_username" required>
 
 
 
                         </div>
+                        <div class="error"
+                        *ngIf="(this.withdrawForm.get('acno')?.touched||this.withdrawForm.get('acno')?.dirty)&&this.withdrawForm.get('acno')?.errors">
+                        Invalid Account No</div>
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-key"></i></span>
@@ -35,11 +38,14 @@
                             <!-- <input type="password" class="form-control"  placeholder="password"  (change)="pwdChange($event)" id="bk_password" required> -->
                             <!-- <input type="password" class="form-control" #pwd placeholder="password" id="bk_password"
                                 required> -->
-                            <input type="password" class="form-control" [(ngModel)]="pwd" name="pwd1"
+                            <input type="password" class="form-control" formControlName="pwd" name="pwd1"
                                 placeholder="Password" id="bk_password" required>
 
 
                         </div>
+                        <div class="error"
+                        *ngIf="(this.withdrawForm.get('pwd')?.touched||this.withdrawForm.get('pwd')?.dirty)&&this.withdrawForm.get('pwd')?.errors">
+                        Invalid Password</div>
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-key"></i></span>
@@ -47,11 +53,14 @@
                             <!-- <input type="password" class="form-control"  placeholder="password"  (change)="pwdChange($event)" id="bk_password" required> -->
                             <!-- <input type="password" class="form-control" #pwd placeholder="password" id="bk_password"
                                 required> -->
-                            <input type="text" class="form-control" [(ngModel)]="amount" name="amount1"
+                            <input type="text" class="form-control" formControlName="amount" name="amount1"
                                 placeholder="Amount" id="bk_password" required>
 
 
                         </div>
+                        <div class="error"
+                        *ngIf="(this.withdrawForm.get('amount')?.touched||this.withdrawForm.get('amount')?.dirty)&&this.withdrawForm.get('amount')?.errors">
+                        Invalid Amount</div>
 
                         <div class="form-group">
                             <input type="submit" value="Withdraw"  class="btn float-right login_btn "

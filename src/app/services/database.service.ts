@@ -1,3 +1,4 @@
+import { jsDocComment, ThisReceiver } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { flatMap } from 'rxjs';
 
@@ -5,6 +6,8 @@ import { flatMap } from 'rxjs';
   providedIn: 'root'
 })
 export class DatabaseService {
+  currentUserName:any;
+  currentAccountNo:any
 
 
   users: any = {
@@ -12,26 +15,56 @@ export class DatabaseService {
       acno: 1000,
       uname: "n1",
       password: 1000,
-      balance: 5000
+      balance: 5000,
+      transaction:[]
     },
     1001: {
       acno: 1001,
       uname: "n2",
       password: 1001,
-      balance: 5000
+      balance: 5000,
+      transaction:[]
     },
 
     1002: {
       acno: 1002,
       uname: "n3",
       password: 1002,
-      balance: 5000
+      balance: 5000,
+      transaction:[]
     }
 
 
   }
 
-  constructor() { }
+  constructor() { 
+    this.getDetails();
+  }
+
+
+
+  getDetails(){
+    if(localStorage.getItem("db"))
+    {
+      this.users=JSON.parse(localStorage.getItem("db")||'')
+    }
+
+    if(localStorage.getItem("cuser"))
+    {
+      this.currentUserName=JSON.parse(localStorage.getItem("cuser")||'')
+    }
+   
+  }
+
+  saveDetails(){
+    if(this.users){
+      localStorage.setItem("db",JSON.stringify(this.users))
+    }
+    if(this.currentUserName){
+      localStorage.setItem("cuser",JSON.stringify(this.currentUserName))
+
+    }
+  }
 
   register(acno: any, password: any, uname: any) {
     let db = this.users
@@ -43,8 +76,10 @@ export class DatabaseService {
         acno,
         uname,
         password,
-        balance: 0
+        balance: 0,
+        transaction:[]
       }
+      this.saveDetails()
       return true
     }
   }
@@ -53,6 +88,9 @@ export class DatabaseService {
     let database = this.users
     if (acno1 in database) {
       if (password1 == database[acno1]["password"]) {
+        this.currentUserName=database[acno1].uname;
+        this.currentAccountNo=database[acno1].acno;
+        this.saveDetails()
         return true
       }
       else {
@@ -73,6 +111,11 @@ export class DatabaseService {
     if (acno in db) {
       if (password == db[acno]["password"]) {
         db[acno]["balance"] = db[acno]["balance"] + amount
+        db[acno].transaction.push({
+          amount:amount,
+          type:"CREDIT"
+        })
+        this.saveDetails();
         return db[acno]["balance"]
       }
       else {
@@ -95,8 +138,13 @@ export class DatabaseService {
         var bal = db[acno]["balance"]
         if (bal >=amount) {
           db[acno]["balance"] = db[acno]["balance"] - amount
+          db[acno].transaction.push({
+            amount:amount,
+            type:"DEBIT"
+          })
+          
+          this.saveDetails();
           return db[acno]["balance"];
-
 
         }
         else {
@@ -117,6 +165,16 @@ export class DatabaseService {
   }
 
 
+  balance(acno:any){
+    let db=this.users;
+    if(acno in db){
+      var bal= db[acno]["balance"]
+      return bal;
+    }
+
+  
+
+  }
 
 
 }

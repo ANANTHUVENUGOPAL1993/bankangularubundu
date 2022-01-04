@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DatabaseService } from '../services/database.service';
 
@@ -14,9 +15,17 @@ export class LoginComponent implements OnInit {
   acno=""
   pwd=""
 
+
+  loginForm=this.fb.group({
+    acno: ['',[Validators.required,Validators.pattern('[0-9]*')]],
+    pwd: ['',[Validators.required,Validators.pattern('[a-zA-Z0-9]*')]]
+
+
+  })
+
   
 
-  constructor(private router1:Router, private ds:DatabaseService) { }  //////to communucate between component
+  constructor(private router1:Router, private ds:DatabaseService, private fb:FormBuilder) { }  //////to communucate between component
 
   ngOnInit(): void {
   }
@@ -92,13 +101,22 @@ export class LoginComponent implements OnInit {
 login(){
    
 
-    var acno=this.acno;
-    var password=this.pwd;
-    let result=this.ds.login(acno,password)
-    if(result){
-      alert("Login Successful.......")
-      this.router1.navigateByUrl('dashboard')
+    // var acno=this.acno;
+    // var password=this.pwd;
+    if(this.loginForm.valid){
+      var acno = this.loginForm.value.acno;
+      var pwd = this.loginForm.value.pwd;
+      let result=this.ds.login(acno,pwd)
+      if(result){
+        alert("Login Successful.......")
+        this.router1.navigateByUrl('dashboard')
+      }
+
     }
+    else{
+      alert("Invalid Form")
+    }
+   
     
    
   }
