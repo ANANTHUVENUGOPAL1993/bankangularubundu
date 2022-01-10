@@ -53,6 +53,10 @@ export class DatabaseService {
     {
       this.currentUserName=JSON.parse(localStorage.getItem("cuser")||'')
     }
+    if(localStorage.getItem("cacno"))
+    {
+      this.currentAccountNo=JSON.parse(localStorage.getItem("cacno")||'')
+    }
    
   }
 
@@ -62,6 +66,10 @@ export class DatabaseService {
     }
     if(this.currentUserName){
       localStorage.setItem("cuser",JSON.stringify(this.currentUserName))
+
+    }
+    if(this.currentAccountNo){
+      localStorage.setItem("cacno",JSON.stringify(this.currentAccountNo))
 
     }
   }
@@ -82,14 +90,14 @@ export class DatabaseService {
       this.saveDetails()
       return true
     }
-  }
+  } 
 
   login(acno1: any, password1: any) {
     let database = this.users
     if (acno1 in database) {
       if (password1 == database[acno1]["password"]) {
         this.currentUserName=database[acno1].uname;
-        this.currentAccountNo=database[acno1].acno;
+        this.currentAccountNo=acno1;
         this.saveDetails()
         return true
       }
@@ -168,12 +176,18 @@ export class DatabaseService {
   balance(acno:any){
     let db=this.users;
     if(acno in db){
-      var bal= db[acno]["balance"]
+      var bal= db[this.currentAccountNo]["balance"]
       return bal;
     }
 
   
 
+  }
+
+  getTransaction(){
+    console.log(this.users[this.currentAccountNo].transaction);
+    
+    return this.users[this.currentAccountNo].transaction;
   }
 
 

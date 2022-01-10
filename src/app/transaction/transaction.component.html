@@ -10,23 +10,23 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Credit</td>
+          <tr *ngFor="let tran of transactions ;let i=index" >
+            <th scope="row">{{i+1}}</th>
+            <td>{{tran.amount}}</td>
+            <td>{{tran.type}}</td>
           </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Credit</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>Credit</td>
-          </tr>
+          
         </tbody>
       </table>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <button class="btn btn-primary" (click)="home()">Home</button>
+          </div>
+        </div>
+        
+      </div>
 
 
 
