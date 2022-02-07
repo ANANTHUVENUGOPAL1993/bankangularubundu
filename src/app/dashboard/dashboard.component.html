@@ -9,9 +9,12 @@
           
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                </li>
               
                 <li class="nav-item active">
-                  <a class="nav-link" style="margin-left: 800px;" href="">Log out <span class="sr-only">(current)</span></a>
+                  <!-- <a class="nav-link" style="margin-left: 800px;" href="">Log out <span class="sr-only">(current)</span></a> -->
+                  <button style="margin-left: 700px;" class="btn btn-danger"  (click)="logout()">LogOut</button>
                 </li>
               
 
@@ -25,9 +28,18 @@
           </nav>
   
     <div class="area">AVG BANK</div>
+    <div><p> Date : {{lDate|date:'shortDate'}}</p></div>
+
+    <div >
+      <button class="btn btn-danger" (click)="delete()">Delete Account</button>
+
+    </div>
+    <!-- <app-animation></app-animation> -->
+
+    <app-deleteconfirmation (onCancel)="cancel()"   (onDelete)="deleteAccount($event)"    [item]="acno1"    ></app-deleteconfirmation>
 
 
-    <div class="container col-md-12 mt-0">
+    <div class="container col-md-12 mt-0" [ngClass]="acno1?'s1':''">
         <div class="d-flex justify-content-center h-100">
             <div class="card">
                 <div class="card-header">

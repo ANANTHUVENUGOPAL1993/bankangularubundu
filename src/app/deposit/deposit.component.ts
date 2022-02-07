@@ -13,33 +13,62 @@ export class DepositComponent implements OnInit {
   // pwd:any=""
   // amount:any=""
   depositForm = this.fb.group({
-    acno: ['',[Validators.required,Validators.pattern('[0-9]*')]],
-    pwd: ['',[Validators.required,Validators.pattern('[a-zA-Z0-9]*')]],
-    amount: ['',[Validators.required,Validators.pattern('[0-9]*')]]
+    acno: ['', [Validators.required, Validators.pattern('[0-9]*')]],
+    pwd: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]],
+    amount: ['', [Validators.required, Validators.pattern('[0-9]*')]]
 
 
 
   })
 
 
-  constructor(private ds:DatabaseService, private fb:FormBuilder) { }
+  constructor(private ds: DatabaseService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
   }
-deposit(){
+  // deposit() {
 
-  if(this.depositForm.valid){
-    var acno=this.depositForm.value.acno;
-    var pwd=this.depositForm.value.pwd;
-    var amount=this.depositForm.value.amount;
-    let result=this.ds.deposit(acno,pwd,amount)
+  //   if (this.depositForm.valid) {
+  //     var acno = this.depositForm.value.acno;
+  //     var pwd = this.depositForm.value.pwd;
+  //     var amount = this.depositForm.value.amount;
+  //     let result = this.ds.deposit(acno, pwd, amount)
 
-if(result){
-  alert(`${amount} is credited and the new balace is ${result}`)
-}
+  //     if (result) {
+  //       alert(`${amount} is credited and the new balace is ${result}`)
+  //     }
 
+
+  //   }
+  //   else{
+  //     alert("Invalid Form")
+  //   }
+
+  // }
+///////////////////asynchrnous
+
+  deposit() {
+
+    if (this.depositForm.valid) {
+      var acno = this.depositForm.value.acno;
+      var pwd = this.depositForm.value.pwd;
+      var amount = this.depositForm.value.amount;
+     this.ds.deposit(acno,pwd,amount).subscribe((result:any)=>{
+       if(result){
+         alert(result.message)
+       }
+
+     },
+     (result)=>{
+       alert(result.error.message)
+     })
+
+
+
+    }
+    else{
+      alert("Invalid Form")
+    }
 
   }
- 
-}
 }

@@ -28,20 +28,46 @@ export class WithdrawComponent implements OnInit {
   }
 
 
+  // withdraw(){
+
+  //   if(this.withdrawForm.valid){
+  //     var acno=this.withdrawForm.value.acno;
+  //     var pwd=this.withdrawForm.value.pwd;
+  //     var amount=this.withdrawForm.value.amount;
+  //     let result=this.ds.withdraw(acno,pwd,amount)
+    
+  //     if(result){
+  //       alert(`${amount} is withdrawn  and the new balace is ${result}`)
+  //     }
+
+  //   }
+   
+    
+  // }
+
   withdraw(){
 
     if(this.withdrawForm.valid){
       var acno=this.withdrawForm.value.acno;
       var pwd=this.withdrawForm.value.pwd;
       var amount=this.withdrawForm.value.amount;
-      let result=this.ds.withdraw(acno,pwd,amount)
-    
-      if(result){
-        alert(`${amount} is withdrawn  and the new balace is ${result}`)
-      }
-
+      this.ds.withdraw(acno,pwd,amount).subscribe((result:any)=>{
+        if(result){
+          alert(result.message)
+        }
+ 
+      },
+      (result)=>{
+        alert(result.error.message)
+      })
+ 
     }
    
     
   }
+
+
+
+
+
 }

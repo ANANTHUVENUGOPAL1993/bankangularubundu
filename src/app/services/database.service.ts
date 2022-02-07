@@ -1,6 +1,11 @@
-import { jsDocComment, ThisReceiver } from '@angular/compiler';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { flatMap } from 'rxjs';
+
+
+
+const options={
+  headers:new HttpHeaders()
+}
 
 @Injectable({
   providedIn: 'root'
@@ -37,8 +42,8 @@ export class DatabaseService {
 
   }
 
-  constructor() { 
-    this.getDetails();
+  constructor(private http: HttpClient) { 
+   // this.getDetails();
   }
 
 
@@ -75,102 +80,167 @@ export class DatabaseService {
   }
 
   register(acno: any, password: any, uname: any) {
-    let db = this.users
-    if (acno in db) {
-      return false
+//////////////////////////////////////////////////////////////////////////////////
+    const data={
+      acno,
+      password,
+      uname
     }
-    else {
-      db[acno] = {
-        acno,
-        uname,
-        password,
-        balance: 0,
-        transaction:[]
-      }
-      this.saveDetails()
-      return true
-    }
+
+    ////asynchronous event
+    return this.http.post('http://localhost:3000/register',data)
+
+
+    ///////////////////////////////////////////////////////////////////////
+    // let db = this.users
+    // if (acno in db) {
+    //   return false
+    // }
+    // else {
+    //   db[acno] = {
+    //     acno,
+    //     uname,
+    //     password,
+    //     balance: 0,
+    //     transaction:[]
+    //   }
+    //   this.saveDetails()
+    //   return true
+    // }
   } 
 
-  login(acno1: any, password1: any) {
-    let database = this.users
-    if (acno1 in database) {
-      if (password1 == database[acno1]["password"]) {
-        this.currentUserName=database[acno1].uname;
-        this.currentAccountNo=acno1;
-        this.saveDetails()
-        return true
-      }
-      else {
-        alert("Incorrect Password")
-        return false
-      }
+  login(acno: any, password: any) {
+    
+    const data={
+      acno,
+      password
     }
-    else {
-      alert("Invalid Account Number")
-      return false
-    }
+
+    return this.http.post('http://localhost:3000/login',data)
+
+
+
+    // let database = this.users
+
+    // if (acno1 in database) {
+    //   if (password1 == database[acno1]["password"]) {
+    //     this.currentUserName=database[acno1].uname;
+    //     this.currentAccountNo=acno1;
+    //     this.saveDetails()
+    //     return true
+    //   }
+    //   else {
+    //     alert("Incorrect Password")
+    //     return false
+    //   }
+    // }
+    // else {
+    //   alert("Invalid Account Number")
+    //   return false
+    // }
   }
 
   deposit(acno: any, password: any, amt: any) {
-    var amount = parseInt(amt)
-    let db = this.users;
 
-    if (acno in db) {
-      if (password == db[acno]["password"]) {
-        db[acno]["balance"] = db[acno]["balance"] + amount
-        db[acno].transaction.push({
-          amount:amount,
-          type:"CREDIT"
-        })
-        this.saveDetails();
-        return db[acno]["balance"]
-      }
-      else {
-        alert("Incorrect Password")
-        return false
-      }
-
+    const data={
+      acno,
+      password,
+      amt
     }
-    else {
-      alert("Account does not exit!!!!!!")
-      return false
-    }
+    return this.http.post('http://localhost:3000/deposit',data,this.getOptions())
   }
+
+
+    getOptions(){
+      const token=JSON.parse(localStorage.getItem("token")||"")
+
+      let headers=new HttpHeaders()
+      if(token){
+        headers=headers.append('x-m-l',token)
+        options.headers=headers
+      }
+
+      return options;
+    }
+
+
+    
+
+
+
+
+
+    // var amount = parseInt(amt)
+    // let db = this.users;
+
+    // if (acno in db) {
+    //   if (password == db[acno]["password"]) {
+    //     db[acno]["balance"] = db[acno]["balance"] + amount
+    //     db[acno].transaction.push({
+    //       amount:amount,
+    //       type:"CREDIT"
+    //     })
+    //     this.saveDetails();
+    //     return db[acno]["balance"]
+    //   }
+    //   else {
+    //     alert("Incorrect Password")
+    //     return false
+    //   }
+
+    // }
+    // else {
+    //   alert("Account does not exit!!!!!!")
+    //   return false
+    // }
+  
+
+  // withdraw(acno: any, password: any, amt: any) {
+  //   var amount = parseInt(amt);
+  //   let db = this.users;
+  //   if (acno in db) {
+  //     if (password == db[acno]["password"]) {
+  //       var bal = db[acno]["balance"]
+  //       if (bal >=amount) {
+  //         db[acno]["balance"] = db[acno]["balance"] - amount
+  //         db[acno].transaction.push({
+  //           amount:amount,
+  //           type:"DEBIT"
+  //         })
+          
+  //         this.saveDetails();
+  //         return db[acno]["balance"];
+
+  //       }
+  //       else {
+  //         alert("Insufficient Balance")
+  //         return false
+  //       }
+
+  //     }
+  //     else {
+  //       alert("Invalid Password")
+  //     }
+
+  //   }
+  //   else {
+  //     alert("Account No doesnot Exit!!!!!!")
+  //   }
+
+  // }
+
 
   withdraw(acno: any, password: any, amt: any) {
-    var amount = parseInt(amt);
-    let db = this.users;
-    if (acno in db) {
-      if (password == db[acno]["password"]) {
-        var bal = db[acno]["balance"]
-        if (bal >=amount) {
-          db[acno]["balance"] = db[acno]["balance"] - amount
-          db[acno].transaction.push({
-            amount:amount,
-            type:"DEBIT"
-          })
-          
-          this.saveDetails();
-          return db[acno]["balance"];
+    const data={
+      acno,
+      password,
+      amt
+    }
+    return this.http.post('http://localhost:3000/withdraw',data,this.getOptions())
 
         }
-        else {
-          alert("Insufficient Balance")
-          return false
-        }
+  
 
-      }
-      else {
-        alert("Invalid Password")
-      }
-
-    }
-    else {
-      alert("Account No doesnot Exit!!!!!!")
-    }
-
-  }
 
 
   balance(acno:any){
@@ -183,12 +253,34 @@ export class DatabaseService {
   
 
   }
-
-  getTransaction(){
-    console.log(this.users[this.currentAccountNo].transaction);
+///////////////////////////////////////////////////////
+  // getTransaction(){
+  //   console.log(this.users[this.currentAccountNo].transaction);
     
-    return this.users[this.currentAccountNo].transaction;
-  }
+  //   return this.users[this.currentAccountNo].transaction;
+  // }
+////////////////////////////////////////////////////////
+
+getTransaction(acno:any){
+  const data={}
+
+  //////////asynchronous
+
+  return this.http.post('http://localhost:3000/getTransaction/'+acno,data,this.getOptions())
+
+}
+
+delete(acno:any){
+ 
+
+  //////////asynchronous
+
+  return this.http.delete('http://localhost:3000/deleteAcc/'+acno,this.getOptions())
+
+}
+
+
+
 
 
 }

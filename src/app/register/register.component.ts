@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
 
 
   registerForm = this.fb.group({
-    uname: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
+    uname: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9 ]*')]],
     acno: ['',[Validators.required,Validators.pattern('[0-9]*')]],
     pwd: ['',[Validators.required,Validators.pattern('[a-zA-Z0-9]*')]]
 
@@ -47,15 +47,32 @@ export class RegisterComponent implements OnInit {
       var uname = this.registerForm.value.uname;
       var acno = this.registerForm.value.acno;
       var pwd = this.registerForm.value.pwd;
+      ////////////////////////////////////////////////////////////////////////////////////////////
+      /////////////////////////asynchronous event
       let result = this.ds.register(acno, pwd, uname)
 
-      if (result) {
-        alert("Account Registered Successfully......")
-        this.router.navigateByUrl("")
-      }
-      else {
-        alert("Account already exit !!!!!!!")
-      }
+      .subscribe((result:any)=> {
+        if (result) {
+         // alert("Account Registered Successfully......")
+         alert(result.message)
+          this.router.navigateByUrl("")
+        }
+        // else {
+        //   alert("Account already exit !!!!!!!")
+        // }
+      
+      } ,
+      (result)=>{
+        alert(result.error.message)
+      })
+
+      // if (result) {
+      //   alert("Account Registered Successfully......")
+      //   this.router.navigateByUrl("")
+      // }
+      // else {
+      //   alert("Account already exit !!!!!!!")
+      // }
 
     }
     else{

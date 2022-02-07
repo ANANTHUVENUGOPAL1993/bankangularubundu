@@ -1,0 +1,7 @@
+<div *ngIf="item">
+    <p>Do you want to delete the account {{item}}</p>
+    <div>
+<button (click)="deleteFromChild()">Confirm</button>
+ <button (click)="cancelFromChild()">Cancel</button>
+    </div>
+</div>

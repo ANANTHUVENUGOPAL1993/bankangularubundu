@@ -11,18 +11,38 @@ import { LoginComponent } from '../login/login.component'
 export class DashboardComponent implements OnInit {
 
 
-  // acno:any=""
-  pwd: any = ""
-  amount: any = ""
+   acno:any
+  pwd: any 
+  amount: any 
+
+  acno1=""
+  lDate:any
 
 
-  user = this.db.currentUserName;
-  acno = this.db.currentAccountNo;
+  // user = this.db.currentUserName;
+  // acno = this.db.currentAccountNo;
+  user:any
+ 
 
 
-  constructor(private Router2: Router, private db: DatabaseService) { }
+  constructor(private Router2: Router, private db: DatabaseService) {
+
+    this.lDate= new Date();
+    if(localStorage.getItem("currentUserName")){
+      this.user=JSON.parse(localStorage.getItem("currentUserName")||"")
+    }
+
+    
+
+
+   }
 
   ngOnInit(): void {
+
+    if(!localStorage.getItem('token')){
+      alert("please login")
+      this.Router2.navigateByUrl("")
+    }
   }
 
 
@@ -52,6 +72,42 @@ export class DashboardComponent implements OnInit {
 
 
   }
+
+
+  delete(){
+    this.acno1=JSON.parse(localStorage.getItem("currentAcno")||"")
+
+  }
+
+
+  deleteAccount(event:any){
+    this.db.delete(event).subscribe((result:any)=>{
+      if(result){
+        alert(result.message)
+        this.Router2.navigateByUrl("")
+      }
+    })
+  }
+
+  cancel(){
+    this.acno1=""
+  }
+
+
+
+
+
+  logout(){
+    localStorage.removeItem("currentAcno")
+    localStorage.removeItem("currentUserName")
+
+    localStorage.removeItem("token")
+    this.Router2.navigateByUrl("")
+
+  }
+
+
+
 
 
 

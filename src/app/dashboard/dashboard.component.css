@@ -89,6 +89,11 @@ color: white;
 margin-left: 4px;
 }
 
+.s1{
+  background-color: grey;
+  opacity: 0.1;
+}
+
 .navbar p{
     color: #FFC312;
     padding-top: 20px;
